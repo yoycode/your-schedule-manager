@@ -1,59 +1,135 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-router" target="_blank" rel="noopener">router</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-vuex" target="_blank" rel="noopener">vuex</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+  <!-- <q-page> -->
+  <!-- <img alt="Quasar logo" src="../assets/logo.svg" style="width: 200px; height: 200px" /> -->
+  <div class="setting row">
+    <q-btn icon="access_time" color="deep-orange" outline align="around" class="q-mr-sm">
+      Start {{ timeFrom }}
+      <q-popup-proxy @before-show="updateProxy" transition-show="scale" transition-hide="scale">
+        <q-time v-model="proxyTimeFrom" format24h :minute-options="minuteOptionsTime1">
+          <div class="row items-center justify-end q-gutter-sm">
+            <q-btn label="Cancel" color="primary" flat v-close-popup />
+            <q-btn label="OK" color="primary" flat @click="save" v-close-popup />
+          </div>
+        </q-time>
+      </q-popup-proxy>
+    </q-btn>
+    <!-- <span>~</span> -->
+    <q-btn icon="access_time" color="deep-orange" outline class="q-mr-sm">
+      End {{ timeTo }}
+      <q-popup-proxy @before-show="updateProxy" transition-show="scale" transition-hide="scale">
+        <q-time v-model="proxyTimeTo" format24h :minute-options="minuteOptionsTime1">
+          <div class="row items-center justify-end q-gutter-sm">
+            <q-btn label="Cancel" color="primary" flat v-close-popup />
+            <q-btn label="OK" color="primary" flat @click="save" v-close-popup />
+          </div>
+        </q-time>
+      </q-popup-proxy>
+    </q-btn>
+    <q-btn label="SET" color="deep-orange" class="glossy" @click="setSlot"></q-btn>
+
+    <!-- <q-input
+      v-model="timeFrom"
+      label-slot
+      dense
+      outlined
+      style="max-width:130px; min-width:130px; margin-right:15px;"
+    >
+      <template v-slot:label>
+        <span class="q-px-sm bg-deep-orange text-white text-italic rounded-borders">Start</span>
+      </template>
+      <template v-slot:append offset-y>
+        <q-icon name="access_time" class="cursor-pointer icon_time">
+          <q-popup-proxy transition-show="scale" transition-hide="scale">
+            <q-time v-model="time" format24h :minute-options="minuteOptionsTime1">
+              <div class="row items-center justify-end">
+                <q-btn v-close-popup label="Close" color="primary" flat />
+              </div>
+            </q-time>
+          </q-popup-proxy>
+        </q-icon>
+      </template>
+    </q-input>-->
   </div>
+
+  <!-- </q-page> -->
 </template>
 
 <script>
+import { ref } from "vue";
+import { useStore } from "vuex";
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
+  // name: "HelloWorld",
+  components: {},
+  setup() {
+    const store = useStore();
+    // let time = ref("00:00");
+
+    let timeFrom = ref("18:00");
+    let timeTo = ref("24:00");
+    let proxyTimeFrom = ref("00:00");
+    let proxyTimeTo = ref("00:00");
+
+    const minuteOptionsTime1 = [0, 30];
+
+    const save = () => {
+      timeFrom.value = proxyTimeFrom.value; // ref 사용하면 .value 써줘야함
+      timeTo.value = proxyTimeTo.value;
+    };
+    const updateProxy = () => {
+      proxyTimeFrom.value = timeFrom.value;
+      proxyTimeTo.value = timeTo.value;
+    };
+
+    let setSlot = () => {
+      let hourGap = timeTo.value.substr(0, 2) - timeFrom.value.substr(0, 2);
+      let minGap = timeTo.value.substr(3, 4) - timeFrom.value.substr(3, 4);
+      let slotCnt = hourGap * 2;
+
+      if (hourGap < 0) {
+      }
+
+      if (minGap == 30) {
+        slotCnt += 1;
+      } else if (minGap == -30) {
+        slotCnt -= 1;
+      } else if (minGap == 0) {
+      } else {
+        alert("times are wrong");
+      }
+      const params = {
+        timeFrom: timeFrom.value,
+        timeTo: timeTo.value,
+        slotCnt: slotCnt
+      };
+      store.commit("Schedule/SET_SCHEDULE", params);
+      console.log(store.state.Schedule.timeSet.slotCnt);
+    };
+
+    return {
+      // time,
+      proxyTimeFrom,
+      proxyTimeTo,
+      timeFrom,
+      timeTo,
+
+      minuteOptionsTime1,
+      save,
+      updateProxy,
+      setSlot
+    };
   }
-}
+};
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style scoped lang="scss">
-h3 {
-  margin: 40px 0 0;
+@import "src/styles/quasar.scss";
+.setting {
+  background-color: $grey-12;
+  margin: 20px 15px;
+  padding: 15px;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+.icon_time:hover {
+  color: $deep-orange;
 }
 </style>
