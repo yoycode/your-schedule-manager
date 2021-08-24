@@ -1,4 +1,4 @@
-export const Schedule = {
+export const TimeTable = {
   namespaced: true, // 이거 안쓰면 getters, mutations, actions 전역으로 들어감
   state: () => ({
     timeSet: {

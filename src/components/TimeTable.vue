@@ -2,7 +2,7 @@
   <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
   <!-- <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" /> -->
   <div class="row justify-center q-gutter-x-sm no-wrap home">
-    <span v-show="hidden">{{ row }}</span>
+    <span v-show="false">{{ row }}</span>
     <div class="drop-zone" @dragenter.prevent @dragover.prevent>
       <div>월</div>
       <schedule-card
@@ -157,9 +157,9 @@ export default defineComponent({
 
     let slotCnt;
     watch(
-      () => store.state.Schedule.timeSet.slotCnt,
+      () => store.state.TimeTable.timeSet.slotCnt,
       function() {
-        slotCnt = store.state.Schedule.timeSet.slotCnt;
+        slotCnt = store.state.TimeTable.timeSet.slotCnt;
 
         let arrContainer = [];
         let listNo = 1;
@@ -177,7 +177,7 @@ export default defineComponent({
           }
           listNo++;
         }
-        console.log(arrContainer);
+        console.log(arrContainer, "1234");
         items = ref(arrContainer);
       }
     );
@@ -218,7 +218,7 @@ export default defineComponent({
       getList,
       startDrag,
       onDrop,
-      row: computed(() => store.state.Schedule.timeSet.slotCnt)
+      row: computed(() => store.state.TimeTable.timeSet.slotCnt)
     };
   }
 });

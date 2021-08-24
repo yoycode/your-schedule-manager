@@ -3,9 +3,17 @@
     <router-link to="/">Home</router-link>|
     <router-link to="/about">About</router-link>
   </div>-->
-  <router-view />
-</template>
 
+  <layout />
+</template>
+<script>
+import layout from "@/layouts/layout.vue";
+export default {
+  components: {
+    layout
+  }
+};
+</script>
 <style lang="scss">
 @import "src/styles/quasar.scss";
 #app {

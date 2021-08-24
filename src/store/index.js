@@ -1,15 +1,16 @@
 import { createStore } from 'vuex'
-import { Schedule } from '@/store/modules/Schedule'
+import { TimeTable } from '@/store/modules/TimeTable'
+import { Task } from '@/store/modules/Task'
 
 export default createStore({
   state: {
-    test: "hihitest"
   },
   mutations: {
   },
   actions: {
   },
   modules: {
-    Schedule
+    TimeTable,
+    Task,
   }
 })

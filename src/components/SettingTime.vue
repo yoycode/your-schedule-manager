@@ -1,32 +1,36 @@
 <template>
   <!-- <q-page> -->
   <!-- <img alt="Quasar logo" src="../assets/logo.svg" style="width: 200px; height: 200px" /> -->
-  <div class="setting row">
-    <q-btn icon="access_time" color="deep-orange" outline align="around" class="q-mr-sm">
-      Start {{ timeFrom }}
-      <q-popup-proxy @before-show="updateProxy" transition-show="scale" transition-hide="scale">
-        <q-time v-model="proxyTimeFrom" format24h :minute-options="minuteOptionsTime1">
-          <div class="row items-center justify-end q-gutter-sm">
-            <q-btn label="Cancel" color="primary" flat v-close-popup />
-            <q-btn label="OK" color="primary" flat @click="save" v-close-popup />
-          </div>
-        </q-time>
-      </q-popup-proxy>
-    </q-btn>
-    <!-- <span>~</span> -->
-    <q-btn icon="access_time" color="deep-orange" outline class="q-mr-sm">
-      End {{ timeTo }}
-      <q-popup-proxy @before-show="updateProxy" transition-show="scale" transition-hide="scale">
-        <q-time v-model="proxyTimeTo" format24h :minute-options="minuteOptionsTime1">
-          <div class="row items-center justify-end q-gutter-sm">
-            <q-btn label="Cancel" color="primary" flat v-close-popup />
-            <q-btn label="OK" color="primary" flat @click="save" v-close-popup />
-          </div>
-        </q-time>
-      </q-popup-proxy>
-    </q-btn>
-    <q-btn label="SET" color="deep-orange" class="glossy" @click="setSlot"></q-btn>
-
+  <div class="setting row justify-between">
+    <div>
+      <q-btn icon="access_time" color="deep-orange" outline align="around" class="q-mr-sm">
+        Start {{ timeFrom }}
+        <q-popup-proxy @before-show="updateProxy" transition-show="scale" transition-hide="scale">
+          <q-time v-model="proxyTimeFrom" format24h :minute-options="minuteOptionsTime1">
+            <div class="row items-center justify-end q-gutter-sm">
+              <q-btn label="Cancel" color="primary" flat v-close-popup />
+              <q-btn label="OK" color="primary" flat @click="save" v-close-popup />
+            </div>
+          </q-time>
+        </q-popup-proxy>
+      </q-btn>
+      <!-- <span>~</span> -->
+      <q-btn icon="access_time" color="deep-orange" outline class="q-mr-sm">
+        End {{ timeTo }}
+        <q-popup-proxy @before-show="updateProxy" transition-show="scale" transition-hide="scale">
+          <q-time v-model="proxyTimeTo" format24h :minute-options="minuteOptionsTime1">
+            <div class="row items-center justify-end q-gutter-sm">
+              <q-btn label="Cancel" color="primary" flat v-close-popup />
+              <q-btn label="OK" color="primary" flat @click="save" v-close-popup />
+            </div>
+          </q-time>
+        </q-popup-proxy>
+      </q-btn>
+      <q-btn label="SET" color="deep-orange" class="glossy" @click="setSlot"></q-btn>
+    </div>
+    <div>
+      <add-task />
+    </div>
     <!-- <q-input
       v-model="timeFrom"
       label-slot
@@ -57,9 +61,14 @@
 <script>
 import { ref } from "vue";
 import { useStore } from "vuex";
+
+import addTask from "@/components/AddTask.vue";
+
 export default {
   // name: "HelloWorld",
-  components: {},
+  components: {
+    addTask
+  },
   setup() {
     const store = useStore();
     // let time = ref("00:00");
@@ -101,8 +110,8 @@ export default {
         timeTo: timeTo.value,
         slotCnt: slotCnt
       };
-      store.commit("Schedule/SET_SCHEDULE", params);
-      console.log(store.state.Schedule.timeSet.slotCnt);
+      store.commit("TimeTable/SET_SCHEDULE", params);
+      console.log(store.state.TimeTable.timeSet.slotCnt, "2234");
     };
 
     return {
