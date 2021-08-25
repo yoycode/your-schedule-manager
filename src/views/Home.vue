@@ -1,7 +1,7 @@
 <template>
   <div>
     <setting-time class="layout" />
-    <task-overview clas="layout" />
+    <task-overview class="layout" :taskList="taskList" />
     <time-table class="layout" />
   </div>
 </template>
@@ -10,10 +10,10 @@
 <script>
 import { onMounted, onActivated, ref } from "vue";
 import { defineComponent } from "vue";
+import { useStore } from "vuex";
 import settingTime from "@/components/SettingTime.vue";
 import taskOverview from "@/components/TaskOverview.vue";
 import timeTable from "@/components/TimeTable.vue";
-
 export default {
   components: {
     settingTime,
@@ -21,9 +21,12 @@ export default {
     timeTable
   },
   setup() {
+    const store = useStore();
+    let taskList = store.getters["Task/GET_TASK_LIST"];
     return {
       drawer: ref(false),
-      miniState: ref(true)
+      miniState: ref(true),
+      taskList
     };
   }
 };

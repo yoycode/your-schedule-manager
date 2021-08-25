@@ -43,7 +43,7 @@
   </div>
 </template>
 <script>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useStore } from "vuex";
 
 export default {
@@ -53,17 +53,13 @@ export default {
     let title = ref("");
     let desc = ref("");
     let saveTask = () => {
-      // let arr = [];
-      // let task = {
-      //   title: title.value,
-      //   desc: desc.value
-      // };
-      // arr.push(task);
-      // console.log(title.value);
-      // console.log(desc.value);
-      // store.commit("Task/SET_TASK_LIST", arr);
-      // let test = store.state.Task.taskList;
-      // console.log(test);
+      let arr = store.getters["Task/GET_TASK_LIST"];
+      let task = {
+        title: title.value,
+        desc: desc.value
+      };
+      arr.push(task);
+      store.commit("Task/SET_TASK_LIST", arr);
     };
     return {
       alert: ref(false),

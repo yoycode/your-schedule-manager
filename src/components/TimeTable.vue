@@ -1,6 +1,4 @@
 <template>
-  <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
-  <!-- <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" /> -->
   <div class="row justify-center q-gutter-x-sm no-wrap home">
     <span v-show="false">{{ row }}</span>
     <div class="drop-zone" @dragenter.prevent @dragover.prevent>
