@@ -1,29 +1,24 @@
 <template>
-  <!-- <div class="q-pa-md row"> -->
-  <!-- <q-toggle v-model="expanded" label="Expanded" class="q-mb-md" /> -->
-
-  <!-- <q-checkbox v-model="val" size="xs" color="deep-orange" /> -->
-  <!-- <q-expansion-item v-model="expanded" :label="item.title">
-      <q-card>
-        <q-card-section>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem, eius reprehenderit eos corrupti
-          commodi magni quaerat ex numquam, dolorum officiis modi facere maiores architecto suscipit iste
-          eveniet doloribus ullam aliquid.
-        </q-card-section>
-      </q-card>
-    </q-expansion-item>
-  </div>-->
   <q-card @click="alert = true" class="cursor-grab card__item">
+    <!-- <q-checkbox v-model="is_done" keep-color size="xs" color="deep-orange" style="max-height:10px" /> -->
     {{item.title}}
     <q-dialog v-model="alert">
-      <q-card>
+      <q-card style="width:500px; max-width:60vw;">
         <q-card-section>
-          <div class="text-h6">Alert</div>
+          <div class="text-h6">{{item.title}}</div>
         </q-card-section>
 
-        <q-card-section
-          class="q-pt-none"
-        >Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro labore.</q-card-section>
+        <q-card-section class="q-pt-none">{{item.desc}}</q-card-section>
+        <q-input
+          v-if="!item.desc"
+          v-model="desc"
+          label="Description"
+          type="textarea"
+          outlined
+          dense
+          autogrow
+          color="deep-orange"
+        />
 
         <q-card-actions align="right">
           <q-btn flat label="OK" color="primary" v-close-popup />
@@ -37,10 +32,12 @@ import { ref } from "vue";
 export default {
   props: ["item"],
   setup() {
+    let is_done = false;
     return {
       expanded: ref(false),
       val: ref(false),
-      alert: ref(false)
+      alert: ref(false),
+      is_done
     };
   }
 };

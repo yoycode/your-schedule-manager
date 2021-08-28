@@ -4,20 +4,11 @@
       v-for="(item, index) in taskChipList"
       :key="item.title"
       :label="taskChipList[index].title"
+      draggable="true"
+      @dragstart="startDrag($event, item)"
       outline
       square
     ></q-chip>
-    <!-- <q-table
-      grid
-      :rows="taskChipList"
-      :columns="headers"
-      row-key="name"
-      :filter="filter"
-      rowsPerPage="20"
-      hide-header
-      dense
-    >
-    </q-table>-->
   </div>
 </template>
 <script>
@@ -27,11 +18,17 @@ export default {
   props: ["taskList"],
   setup(props) {
     let taskChipList = ref(props.taskList);
+
+    const startDrag = (event, item) => {
+      event.dataTransfer.setData("itemTitle", item.title);
+      event.dataTransfer.setData("itemDesc", item.desc);
+    };
+
     return {
       filter: ref(""),
-      headers,
+      // headers,
       taskChipList,
-      zero: ref(0)
+      startDrag
     };
   }
 };
