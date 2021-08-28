@@ -12,7 +12,7 @@
   </div>
 </template>
 <script>
-import { ref, watch } from "vue";
+import { ref } from "vue";
 // const headers = [{ name: "title", field: "desc" }];
 export default {
   props: ["taskList"],

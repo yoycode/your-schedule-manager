@@ -8,17 +8,19 @@
           <div class="text-h6">{{item.title}}</div>
         </q-card-section>
 
-        <q-card-section class="q-pt-none">{{item.desc}}</q-card-section>
-        <q-input
-          v-if="!item.desc"
-          v-model="desc"
-          label="Description"
-          type="textarea"
-          outlined
-          dense
-          autogrow
-          color="deep-orange"
-        />
+        <q-card-section class="q-pt-none">
+          {{item.desc}}
+          <q-input
+            v-if="!item.desc"
+            v-model="desc"
+            label="Description"
+            type="textarea"
+            outlined
+            dense
+            autogrow
+            color="deep-orange"
+          />
+        </q-card-section>
 
         <q-card-actions align="right">
           <q-btn flat label="OK" color="primary" v-close-popup />

@@ -73,6 +73,10 @@ export default defineComponent({
           time.push(tmp1);
           tmp1 = tmp2;
         }
+        let params = {
+          time_list: time
+        };
+        store.commit("TimeTable/SET_TIME_LIST", params);
 
         let arrContainer = [];
         let listNo = 1;
@@ -81,7 +85,8 @@ export default defineComponent({
           for (let i = 0; i < slotCnt; i++) {
             let obj = {
               id: idNo++,
-              title: `${j + 1}줄 - ${i + 1} 칸`,
+              // title: `${j + 1}줄 - ${i + 1} 칸`,
+              title: "",
               list: listNo,
               order: i + 1
             };
