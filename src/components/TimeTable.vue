@@ -51,7 +51,7 @@ export default defineComponent({
 
     let timeFrom, timeTo, slotCnt;
     watch(
-      // time SET버튼 눌러서 slotCnt에 값이 들어오면 items에 값 넣어서 뿌려주기
+      // "time SET"버튼 눌러서 slotCnt에 값이 들어오면 items에 값 넣어서 뿌려주기
       () => store.state.TimeTable.timeSet.slotCnt,
       function() {
         slotCnt = store.state.TimeTable.timeSet.slotCnt;
@@ -73,9 +73,6 @@ export default defineComponent({
           time.push(tmp1);
           tmp1 = tmp2;
         }
-        let params = {
-          option_time: time
-        };
         store.commit("TimeTable/SET_TIME_OPTION", time);
 
         let arrContainer = [];
@@ -88,7 +85,8 @@ export default defineComponent({
               // title: `${j + 1}줄 - ${i + 1} 칸`,
               title: "",
               list: listNo,
-              order: i + 1
+              order: i + 1,
+              time: time[i]
             };
             arrContainer.push(obj);
           }
@@ -97,6 +95,29 @@ export default defineComponent({
         items = ref(arrContainer);
       }
     );
+
+    let taskList = store.state.Task.taskList;
+    watch(taskList, (newVal, oldVal) => {
+      for (let each of newVal) {
+        // each를 그냥 [-1]해줘도...?
+
+        for (let time of each.time) {
+          let matchedRow = items.value.filter(x => {
+            return x.time == time; // 시간대 맞는 item
+          });
+          for (let day of each.week) {
+            let matchedItem = matchedRow.filter(x => {
+              return x.list == day; // 요일 맞는 item
+            });
+            for (let i of matchedItem) {
+              i.title = each.title;
+              i.desc = each.desc;
+            }
+          }
+        }
+      }
+    });
+
     const timeList = () => {
       return time;
     };

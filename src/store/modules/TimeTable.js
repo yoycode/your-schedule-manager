@@ -15,7 +15,6 @@ export const TimeTable = {
     },
     SET_TIME_OPTION(state, payload) {
       state.option_time = payload;
-      console.log(state.option_time)
     }
   },
   getters: {
@@ -27,9 +26,6 @@ export const TimeTable = {
     }
   },
   actions: {
-    test() {
-      console.log("actions!!")
-    }
   }
 
 

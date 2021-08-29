@@ -1,5 +1,10 @@
 <template>
-  <div @click="dialog = true" class="row justify-start">
+  <!-- <div @click="dialog = true" class="row justify-start">
+    <q-dialog v-model="dialog">
+      <q-card>dd</q-card>
+    </q-dialog>
+  </div>-->
+  <div>
     <q-chip
       v-for="(item, index) in taskChipList"
       :key="item.title"
@@ -8,16 +13,29 @@
       @dragstart="startDrag($event, item)"
       outline
       square
-    ></q-chip>
-    <q-dialog v-model="dialog">
-      <q-card>dd</q-card>
-    </q-dialog>
+    >
+      <!-- {{ item}} -->
+      <!-- 수정용 -->
+      <!-- <schedule-card
+        v-for="(item, index) in taskChipList"
+        :key="index"
+        :item="item"
+        draggable="true"
+        @dragstart="startDrag($event, item)"
+        outline
+        square
+      />-->
+    </q-chip>
   </div>
 </template>
 <script>
 import { ref } from "vue";
+import scheduleCard from "@/components/ScheduleCard.vue"; // @ is an alias to /src
 export default {
   props: ["taskList"],
+  components: {
+    scheduleCard
+  },
   setup(props) {
     let taskChipList = ref(props.taskList);
 
@@ -29,7 +47,6 @@ export default {
     return {
       dialog: ref(false),
       filter: ref(""),
-      // headers,
       taskChipList,
       startDrag
     };

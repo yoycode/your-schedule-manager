@@ -21,7 +21,7 @@
             color="deep-orange"
           />
         </q-card-section>
-
+        {{ item }}
         <q-card-actions align="right">
           <q-btn flat label="OK" color="primary" v-close-popup />
         </q-card-actions>

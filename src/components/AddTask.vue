@@ -88,22 +88,21 @@ export default {
 
     let title = ref("");
     let desc = ref("");
+    let week_type = ref(0);
+    let week = ref([]);
+    let time = ref([]);
     const list_day = [
       { label: "Customized", value: 0 },
       { label: "Everyday (Mon ~ Sun)", value: 1 },
       { label: "Weekday (Mom ~ Fri)", value: 2 },
       { label: "Weekend (Sat ~ Sun)", value: 3 }
     ];
-    let week_type, week, time;
-    week_type = ref(0);
-    week = ref([]);
-    time = ref([]);
     let list_time = ref([]);
+
     watch(
       () => store.state.TimeTable.option_time,
       function() {
-        let option_time = store.state.TimeTable.option_time;
-        list_time.value = option_time;
+        list_time.value = store.state.TimeTable.option_time;
       }
     );
 
@@ -130,7 +129,9 @@ export default {
       let arr = store.getters["Task/GET_TASK_LIST"];
       let task = {
         title: title.value,
-        desc: desc.value
+        desc: desc.value,
+        week: week.value,
+        time: time.value
       };
       arr.push(task);
       store.commit("Task/SET_TASK_LIST", arr);
