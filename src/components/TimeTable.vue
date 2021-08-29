@@ -74,9 +74,9 @@ export default defineComponent({
           tmp1 = tmp2;
         }
         let params = {
-          time_list: time
+          option_time: time
         };
-        store.commit("TimeTable/SET_TIME_LIST", params);
+        store.commit("TimeTable/SET_TIME_OPTION", time);
 
         let arrContainer = [];
         let listNo = 1;

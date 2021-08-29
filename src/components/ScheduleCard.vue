@@ -1,8 +1,8 @@
 <template>
-  <q-card @click="alert = true" class="cursor-grab card__item">
+  <q-card @click="dialog = true" class="cursor-grab card__item">
     <!-- <q-checkbox v-model="is_done" keep-color size="xs" color="deep-orange" style="max-height:10px" /> -->
     {{item.title}}
-    <q-dialog v-model="alert">
+    <q-dialog v-model="dialog">
       <q-card style="width:500px; max-width:60vw;">
         <q-card-section>
           <div class="text-h6">{{item.title}}</div>
@@ -38,7 +38,7 @@ export default {
     return {
       expanded: ref(false),
       val: ref(false),
-      alert: ref(false),
+      dialog: ref(false),
       is_done
     };
   }

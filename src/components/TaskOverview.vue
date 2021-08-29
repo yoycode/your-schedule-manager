@@ -1,5 +1,5 @@
 <template>
-  <div class="row justify-start">
+  <div @click="dialog = true" class="row justify-start">
     <q-chip
       v-for="(item, index) in taskChipList"
       :key="item.title"
@@ -9,11 +9,13 @@
       outline
       square
     ></q-chip>
+    <q-dialog v-model="dialog">
+      <q-card>dd</q-card>
+    </q-dialog>
   </div>
 </template>
 <script>
 import { ref } from "vue";
-// const headers = [{ name: "title", field: "desc" }];
 export default {
   props: ["taskList"],
   setup(props) {
@@ -25,6 +27,7 @@ export default {
     };
 
     return {
+      dialog: ref(false),
       filter: ref(""),
       // headers,
       taskChipList,

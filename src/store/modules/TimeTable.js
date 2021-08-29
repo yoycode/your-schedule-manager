@@ -6,24 +6,24 @@ export const TimeTable = {
       timeTo: '',
       slotCnt: 0,
     },
-    time_list: []
+    option_time: []
   }),
 
   mutations: {
     SET_SCHEDULE(state, payload) {
       state.timeSet = payload;
     },
-    SET_TIME_LIST(state, payload) {
-      console.log("!@#!@#", payload);
-      state.time_list = payload;
+    SET_TIME_OPTION(state, payload) {
+      state.option_time = payload;
+      console.log(state.option_time)
     }
   },
   getters: {
     GET_SCHEDULE(state) {
       return state.timeSet;
     },
-    GET_TIME_LIST(state) {
-      return state.time_list
+    GET_TIME_OPTION(state) {
+      return state.option_time
     }
   },
   actions: {
