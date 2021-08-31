@@ -4,7 +4,7 @@
     <q-dialog v-model="dialog">
       <q-card style="width:450px">
         <q-card-section>
-          <div class="text-h6">Your Daily Routine</div>
+          <div class="text-h6">Daily Routine</div>
         </q-card-section>
 
         <q-form ref="add_task">
@@ -38,6 +38,7 @@
               v-model="week_type"
               :options="list_day"
               label="days"
+              label-color="deep-orange"
               emit-value
               map-options
               outlined
@@ -65,10 +66,11 @@
               :options="list_time"
               multiple
               dense
+              label-color="deep-orange"
               class="q-mb-sm"
               style="width:50%;"
             />
-            <q-badge color="deep-orange" multi-line>Model: "{{ time }}"</q-badge>
+            <q-badge color="deep-orange" multi-line>{{ time }}</q-badge>
           </q-card-section>
         </q-form>
         <q-card-actions align="right">

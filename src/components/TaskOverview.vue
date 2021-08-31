@@ -4,7 +4,7 @@
       <q-card>dd</q-card>
     </q-dialog>
   </div>-->
-  <div>
+  <div class="row justify-start">
     <q-chip
       v-for="(item, index) in taskChipList"
       :key="item.title"
