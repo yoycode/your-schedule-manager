@@ -36,7 +36,7 @@
             <q-item-section>Star</q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple>
+          <q-item active clickable v-ripple to="/login">
             <q-item-section avatar>
               <q-icon name="send" />
             </q-item-section>
