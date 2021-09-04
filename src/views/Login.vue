@@ -1,11 +1,15 @@
 <template>
-  <div>here's for login</div>
+  <div row justify-center>
+    <loginForm style="width:700px;" />
+  </div>
 </template>
 <script>
 import addTask from "@/components/AddTask.vue";
+import loginForm from "@/components/login/LoginForm.vue";
 export default {
   components: {
-    addTask
+    addTask,
+    loginForm
   }
 };
 </script>
