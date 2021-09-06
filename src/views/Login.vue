@@ -1,6 +1,6 @@
 <template>
-  <div row justify-center>
-    <loginForm style="width:700px;" />
+  <div class="row justify-center items-center" style="height: calc(100vh - 50px)">
+    <loginForm />
   </div>
 </template>
 <script>
