@@ -2,7 +2,7 @@
   <div class="row justify-center q-gutter-x-sm no-wrap home">
     <span v-show="false">{{ row }}</span>
     <div style="min-width:70px; height:100%; padding-top:10px;">
-      <div>-</div>
+      <div>TIME</div>
       <q-card
         v-for="time in timeList()"
         :key="time"
@@ -59,7 +59,7 @@ export default defineComponent({
         timeFrom = store.state.TimeTable.timeSet.timeFrom;
         timeTo = store.state.TimeTable.timeSet.timeTo;
 
-        time = [];
+        time = []; // each slot
         let tmp1 = timeFrom;
         let tmp2;
         for (let i = 0; i < slotCnt; i++) {
@@ -78,28 +78,30 @@ export default defineComponent({
         let arrContainer = [];
         let listNo = 1;
         let idNo = 1;
-        for (let j = 0; j < 7; j++) {
-          for (let i = 0; i < slotCnt; i++) {
+        for (let i = 0; i < 7; i++) {
+          for (let j = 0; j < slotCnt; j++) {
             let obj = {
               id: idNo++,
-              // title: `${j + 1}줄 - ${i + 1} 칸`,
+              // title: `${i + 1}줄 - ${j + 1} 칸`,
               title: "",
               list: listNo,
-              order: i + 1,
-              time: time[i]
+              order: j + 1,
+              time: time[j]
             };
             arrContainer.push(obj);
           }
           listNo++;
         }
         items = ref(arrContainer);
+        store.commit("TimeTable/SET_SLOT_LIST", items.value);
       }
     );
 
     let taskList = store.state.Task.taskList;
     watch(taskList, (newVal, oldVal) => {
       for (let each of newVal) {
-        // each를 그냥 [-1]해줘도...?
+        // 이렇게 하면 그 위에 덮어씌워짐
+        // let each = taskList[taskList.length - 1]; // 이렇게 하면 자리가 바뀌고
 
         for (let time of each.time) {
           let matchedRow = items.value.filter(x => {
@@ -131,8 +133,8 @@ export default defineComponent({
     };
 
     const startDrag = (event, item) => {
-      // event.dataTransfer.dropEffect = "move";
-      // event.dataTransfer.effectAllowed = "move";
+      event.dataTransfer.dropEffect = "move";
+      event.dataTransfer.effectAllowed = "move";
       event.dataTransfer.setData("itemDragged", item.id); // drag되는 아이템의 정보를 넣음
       event.dataTransfer.setData("itemColumn", item.list);
       event.dataTransfer.setData("itemRow", item.order);
@@ -151,8 +153,8 @@ export default defineComponent({
         // 원래 있던 item 변경
         const itemColumn = event.dataTransfer.getData("itemColumn");
         const itemRow = event.dataTransfer.getData("itemRow");
-        init.list = itemColumn;
-        init.order = itemRow;
+        init.list = Number(itemColumn);
+        init.order = Number(itemRow);
       } else {
         // insert
         const itemTitle = event.dataTransfer.getData("itemTitle");
@@ -161,6 +163,7 @@ export default defineComponent({
         init.title = itemTitle;
         init.desc = itemDesc;
       }
+      store.commit("TimeTable/SET_SLOT_LIST", items.value);
     };
 
     return {

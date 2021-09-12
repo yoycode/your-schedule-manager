@@ -6,7 +6,8 @@ export const TimeTable = {
       timeTo: '',
       slotCnt: 0,
     },
-    option_time: []
+    option_time: [],
+    slotList: [],
   }),
 
   mutations: {
@@ -15,6 +16,9 @@ export const TimeTable = {
     },
     SET_TIME_OPTION(state, payload) {
       state.option_time = payload;
+    },
+    SET_SLOT_LIST(state, payload) {
+      state.slotList = payload;
     }
   },
   getters: {
@@ -23,6 +27,9 @@ export const TimeTable = {
     },
     GET_TIME_OPTION(state) {
       return state.option_time
+    },
+    GET_SLOT_LIST(state) {
+      return state.slotList
     }
   },
   actions: {

@@ -1,8 +1,8 @@
 <template>
   <div class="row">
-    <q-btn label="ADD" @click="dialog = true" />
+    <q-btn label="ADD TASK" @click="dialog = true" />
     <q-dialog v-model="dialog">
-      <q-card style="width:450px">
+      <q-card style="width:420px">
         <q-card-section>
           <div class="text-h6">Daily Routine</div>
         </q-card-section>
@@ -22,7 +22,6 @@
                 <q-icon name="event" color="deep-orange" />
               </template>
             </q-input>
-
             <q-input
               v-model="desc"
               label="Description"
@@ -39,42 +38,47 @@
               :options="list_day"
               label="days"
               label-color="deep-orange"
+              color="deep-orange"
               emit-value
               map-options
               outlined
               dense
-              style="width:50%"
+              style="max-width:500px"
             />
-            <div class="q-mb-sm">
-              <!-- {{ week }} -->
-              <q-checkbox
-                v-for="{value, label} in week_cb"
-                :key="value"
-                v-model="week"
-                :val="value"
-                :label="label"
-                keep-color
-                size="xs"
-                color="deep-orange"
-                style="max-height:10px"
-              />
-            </div>
-            <!-- {{list_time}} -->
+            <q-checkbox
+              v-for="{value, label} in week_cb"
+              :key="value"
+              v-model="week"
+              :val="value"
+              :label="label"
+              keep-color
+              size="xs"
+              color="deep-orange"
+            />
             <q-select
               outlined
               v-model="time"
               :options="list_time"
+              label="Time"
               multiple
               dense
+              color="deep-orange"
               label-color="deep-orange"
               class="q-mb-sm"
-              style="width:50%;"
             />
-            <q-badge color="deep-orange" multi-line>{{ time }}</q-badge>
+            <div class="row" style="align-items:center">
+              <q-badge
+                v-for="item in time"
+                :key="item"
+                class="q-mr-sm q-mt-sm"
+                color="deep-orange"
+              >{{item}}</q-badge>
+            </div>
           </q-card-section>
         </q-form>
         <q-card-actions align="right">
-          <q-btn flat label="SAVE" @click="saveTask()" color="primary" v-close-popup />
+          <q-btn flat label="CLOSE" color="grey" v-close-popup />
+          <q-btn flat label="SAVE" @click="saveTask()" color="deep-orange" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -87,7 +91,7 @@ import { useStore } from "vuex";
 export default {
   setup() {
     const store = useStore();
-
+    let dialog = ref(false);
     let title = ref("");
     let desc = ref("");
     let week_type = ref(0);
@@ -137,9 +141,15 @@ export default {
       };
       arr.push(task);
       store.commit("Task/SET_TASK_LIST", arr);
+      title.value = "";
+      desc.value = "";
+      week_type.value = 0;
+      week.value = [];
+      time.value = [];
+      dialog.value = false;
     };
     return {
-      dialog: ref(false),
+      dialog,
       title,
       desc,
       week_type,
@@ -161,3 +171,5 @@ export default {
   }
 };
 </script>
+<style>
+</style>
