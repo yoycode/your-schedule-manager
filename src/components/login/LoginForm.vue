@@ -3,6 +3,8 @@
     <q-form>
       <q-input v-model="id" label="id" standout="bg-deep-orange text-white" />
       {{ id }}
+      <q-input v-model="email" label="email" standout="bg-deep-orange text-white" />
+      {{email}}
       <q-input v-model="pw" label="pw" standout="bg-deep-orange text-white" />
       {{ pw}}
       <div>
@@ -20,11 +22,13 @@ export default {
     const store = useStore();
 
     let id = ref("");
+    let email = ref("");
     let pw = ref("");
     const test = () => {
       const params = {
-        id: id.value,
-        pw: pw.value
+        name: id.value,
+        email: email.value,
+        password: pw.value
       };
       store.dispatch("Login/test", params);
     };
@@ -32,6 +36,7 @@ export default {
     return {
       id,
       pw,
+      email,
       test
     };
   }

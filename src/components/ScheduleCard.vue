@@ -4,7 +4,7 @@
     <div class="row justify-between">
       <q-icon v-if="item.title" name="dehaze" style="font-size:20px" />
       <span class="q-mx-auto">{{item.title}}</span>
-      {{item.list}} {{item.order}}
+      <!-- {{item.list}} {{item.order}} -->
       <!-- {{typeof(item.list)}} {{ typeof(item.order)}} -->
       <!-- <q-icon v-if="item.title" name="feed" size="sm" /> -->
     </div>

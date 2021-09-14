@@ -25,12 +25,14 @@ mongoose
   .then(() => console.log("MongoDB connected...."))
   .catch((err) => console.log(err));
 
-app.get("/", (req, res) => {
+app.post("/", (req, res) => {
+  console.log(req);
+  console.table(req.body);
   res.send("Hello World!yoy2");
 });
 
 // 회원가입을 위한 라우트 (endpoint, (callback function))
-app.post("/api/user/register", (req, res) => {
+app.post("/user/register", (req, res) => {
   // 회원가입할 때 필요한 정보들을 client 에서 가져오면
   // 그것들을 데이터베이스에 넣어준다.
 
@@ -39,8 +41,9 @@ app.post("/api/user/register", (req, res) => {
   //     id:"hello",
   //     password:"123"
   // }
-
+  console.log(req.body);
   const user = new User(req.body); // 인스턴스 생성 (모든정보들을 user에 넣어줌)
+
 
   //mongoDB method .save()
   user.save((err, userInfo) => {
