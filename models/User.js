@@ -34,7 +34,10 @@ const userSchema = mongoose.Schema({
     // 유효기간 
     type: Number,
   },
-});
+  test: {
+    type: String
+  }
+}, { collection: 'user' });
 
 //mongoose method .pre()
 userSchema.pre("save", function (next) {

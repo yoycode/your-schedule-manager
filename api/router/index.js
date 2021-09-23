@@ -54,6 +54,14 @@ app.post("/user/register", (req, res) => {
     });
   });
 });
+app.post("/user/getList", (req, res) => {
+  // console.dir(User.find().where('name').equals('jiyeon1234'));
+  console.log('------');
+
+  User.find((err, userList) => {
+    console.log(userList);
+  })
+})
 
 // 로그인을 위한 라우트
 app.post("/api/user/login", (req, res) => {

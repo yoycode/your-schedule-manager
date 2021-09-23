@@ -140,6 +140,7 @@ export default {
         time: time.value
       };
       arr.push(task);
+      console.log(task);
       store.commit("Task/SET_TASK_LIST", arr);
       title.value = "";
       desc.value = "";

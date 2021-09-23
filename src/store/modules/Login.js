@@ -15,13 +15,19 @@ export const Login = {
     test({ commit, dispatch }, params) {
       return new Promise(async (resolve, reject) => {
         try {
-          console.log(params);
-          console.log(axios);
           const rs = axios.post('/api/user/register', params)
-          console.log(rs);
           // await this.$axios.post
-        } catch{
+        } catch (err) {
           console.error(err);
+        }
+      })
+    },
+    getList({ commit, dispatch }) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const rs = axios.post('/api/user/getList');
+        } catch (err) {
+          console.error(err)
         }
       })
     }

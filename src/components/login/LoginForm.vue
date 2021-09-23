@@ -9,6 +9,7 @@
       {{ pw}}
       <div>
         <q-btn label="LOGIN" @click="test()" />
+        <q-btn label="GETLIST" @click="getList()" />
       </div>
     </q-form>
   </q-card>
@@ -32,12 +33,16 @@ export default {
       };
       store.dispatch("Login/test", params);
     };
+    const getList = () => {
+      store.dispatch("Login/getList");
+    };
 
     return {
       id,
       pw,
       email,
-      test
+      test,
+      getList
     };
   }
 };

@@ -5,6 +5,7 @@ export const Task = {
   }),
   mutations: {
     SET_TASK_LIST(state, payload) {
+      console.log('task', payload, payload[0].time[0]);
       state.taskList = payload;
     }
   },
