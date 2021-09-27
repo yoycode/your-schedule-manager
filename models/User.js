@@ -35,6 +35,7 @@ const userSchema = mongoose.Schema({
     type: Number,
   },
   test: {
+    // 시간대도 저장하기
     type: String
   }
 }, { collection: 'user' });

@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const taskSchema = mongoose.Schema({
+  name: {
+    type: String,
+    maxlength: 50,
+  },
   title: {
     type: String,
     maxlength: 50,
