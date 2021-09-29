@@ -21,6 +21,12 @@ const userSchema = mongoose.Schema({
     type: String,
     maxlength: 50,
   },
+  s_time: {
+    type: String,
+  },
+  e_time: {
+    type: String,
+  },
   role: {
     type: Number,
     default: 0,
