@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 
 const scheduleSchema = mongoose.Schema({
+  s_code: {
+    type: Number
+  },
   name: {
     type: String,
     maxlength: 50,

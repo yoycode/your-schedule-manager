@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "node api/router/index.js",
-    "backend": "nodemon api/router/index.js",
+    "start": "node api/index.js",
+    "backend": "nodemon api/index.js",
     "dev": "concurrently \"npm run serve\" \"npm run backend\"",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"

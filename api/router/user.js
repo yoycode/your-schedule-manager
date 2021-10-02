@@ -1,29 +1,8 @@
 const express = require("express");
 const app = express();
-const port = 5000;
-const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
-const config = require("../../config/key");
+
 const { auth } = require("../../middleware/auth");
 const { User } = require("../../models/User");
-
-// application/x-www-form-urlencoded 이렇게 된 데이터를 분석해서 가져옴
-app.use(bodyParser.urlencoded({ extended: true }));
-// application/json 타입으로 된 데이터를 분석해서 가져옴
-app.use(bodyParser.json());
-
-app.use(cookieParser());
-
-const mongoose = require("mongoose");
-mongoose
-  .connect(config.mongoURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    // useCreateIndex: true,
-    // useFindAndModify: false,
-  })
-  .then(() => console.log("MongoDB connected...."))
-  .catch((err) => console.log(err));
 
 app.post("/", (req, res) => {
   console.log(req);
@@ -32,7 +11,7 @@ app.post("/", (req, res) => {
 });
 
 // 회원가입을 위한 라우트 (endpoint, (callback function))
-app.post("/user/register", (req, res) => {
+app.post("/register", (req, res) => {
   // 회원가입할 때 필요한 정보들을 client 에서 가져오면
   // 그것들을 데이터베이스에 넣어준다.
 
@@ -123,6 +102,8 @@ app.get("/api/users/logout", auth, (req, res) => {
   }); // 미들웨어 auth에서 req.user._id가져옴
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
-});
+// app.listen(port, () => {
+//   console.log(`Example app listening at http://localhost:${port}`);
+// });
+
+module.exports = app;

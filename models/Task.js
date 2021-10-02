@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 
 const taskSchema = mongoose.Schema({
+  t_code: {
+    type: Number
+  },
   name: {
     type: String,
     maxlength: 50,
@@ -13,10 +16,10 @@ const taskSchema = mongoose.Schema({
     type: String,
   },
   week: {
-    type: Number,
+    type: Array,
   },
   time: {
-    type: String,
+    type: Array,
   }
 }, { collection: 'task' })
 

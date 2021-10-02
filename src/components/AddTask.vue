@@ -132,7 +132,8 @@ export default {
     });
 
     const saveTask = () => {
-      let arr = store.getters["Task/GET_TASK_LIST"];
+      // let arr = store.getters["Task/GET_TASK_LIST"];
+      let arr = [];
       let task = {
         title: title.value,
         desc: desc.value,
@@ -140,8 +141,8 @@ export default {
         time: time.value
       };
       arr.push(task);
-      console.log(task);
-      store.commit("Task/SET_TASK_LIST", arr);
+      // store.commit("Task/SET_TASK_LIST", arr);
+      store.dispatch("Task/setTask", arr);
       title.value = "";
       desc.value = "";
       week_type.value = 0;

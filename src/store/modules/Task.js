@@ -1,3 +1,5 @@
+const axios = require('axios');
+
 export const Task = {
   namespaced: true,
   state: () => ({
@@ -15,6 +17,16 @@ export const Task = {
     }
   },
   actions: {
-
+    setTask({ commit, dispatch }, params) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          console.log("오긴 왔어?", params)
+          const rs = axios.post('/api/task/setTask', params)
+          console.log('setTask', rs);
+        } catch (err) {
+          console.error(err);
+        }
+      })
+    }
   }
 }
