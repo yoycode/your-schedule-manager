@@ -4,15 +4,27 @@ const app = express();
 const { Task } = require('../../models/Task');
 
 app.post('/setTask', (req, res) => {
-  console.log("dd", req.body);
+  console.log("setTask: ", req.body);
   const task = new Task(req.body[0]);
-  let rs = {};
 
   task.save((err, taskInfo) => {
     if (err) return res.json({ success: false, err });
     return res.status(200).json({
-      sucess: true,
+      success: true,
       msg: taskInfo
+    })
+  })
+})
+
+app.post('/getTaskList', (req, res) => {
+  console.log("getTaskList param:", req.body);
+  const task = new Task;
+
+  Task.find((err, taskList) => {
+    if (err) return res.json({ success: false, err });
+    return res.status(200).json({
+      success: true,
+      msg: taskList
     })
   })
 })

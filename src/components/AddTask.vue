@@ -142,7 +142,13 @@ export default {
       };
       arr.push(task);
       // store.commit("Task/SET_TASK_LIST", arr);
-      store.dispatch("Task/setTask", arr);
+      store
+        .dispatch("Task/setTask", arr)
+        .then(result => {
+          console.log("성공", result);
+          store.dispatch("Task/getTaskList", "hi2");
+        })
+        .catch(error => console.error("실패", error));
       title.value = "";
       desc.value = "";
       week_type.value = 0;

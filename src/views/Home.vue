@@ -2,14 +2,14 @@
   <div>
     <setting-time class="layout" />
     <task-overview class="layout" :taskList="taskList" />
-    <time-table class="layout" />
+    <time-table class="layout" :testList="taskList" />
   </div>
 </template>
 
 
 <script>
-import { onMounted, onActivated, ref } from "vue";
-import { defineComponent } from "vue";
+import { computed, ref } from "vue";
+// import { defineComponent } from "vue";
 import { useStore } from "vuex";
 import settingTime from "@/components/SettingTime.vue";
 import taskOverview from "@/components/TaskOverview.vue";
@@ -22,11 +22,13 @@ export default {
   },
   setup() {
     const store = useStore();
-    let taskList = store.getters["Task/GET_TASK_LIST"];
+    store
+      .dispatch("Task/getTaskList", "hi")
+      .then(result => console.log("성공", result))
+      .catch(error => console.error("실패", error));
+
     return {
-      drawer: ref(false),
-      miniState: ref(true),
-      taskList
+      taskList: computed(() => store.state.Task.taskList)
     };
   }
 };

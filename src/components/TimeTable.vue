@@ -10,7 +10,6 @@
         style=" margin-bottom: 10px; min-height: 30px; padding-top:5px; padding-bottom:5px; min-width:90px;transform:translateX(-12px);"
       >{{time}}</q-card>
     </div>
-
     <div
       class="drop-zone"
       @dragenter.prevent
@@ -20,7 +19,7 @@
     >
       <div>{{ nm }}</div>
       <schedule-card
-        v-for="item in getList(idx)"
+        v-for="item in itemList(idx)"
         :key="item.id"
         class="drag-el"
         draggable="true"
@@ -37,7 +36,8 @@ import { defineComponent } from "vue";
 import { useStore } from "vuex";
 import scheduleCard from "@/components/ScheduleCard.vue"; // @ is an alias to /src
 
-export default defineComponent({
+export default {
+  props: ["testList"],
   components: {
     scheduleCard
   },
@@ -97,34 +97,59 @@ export default defineComponent({
       }
     );
 
-    let taskList = store.state.Task.taskList;
-    watch(taskList, (newVal, oldVal) => {
-      for (let each of newVal) {
-        // 이렇게 하면 그 위에 덮어씌워짐
-        // let each = taskList[taskList.length - 1]; // 이렇게 하면 자리가 바뀌고
+    watch(
+      () => store.state.Task.taskList,
+      function() {
+        let newVal = store.state.Task.taskList;
+        console.log("watch");
+        for (let each of newVal) {
+          // 이렇게 하면 그 위에 덮어씌워짐
+          // let each = taskList[taskList.length - 1]; // 이렇게 하면 자리가 바뀌고
 
-        for (let time of each.time) {
-          let matchedRow = items.value.filter(x => {
-            return x.time == time; // 시간대 맞는 item
-          });
-          for (let day of each.week) {
-            let matchedItem = matchedRow.filter(x => {
-              return x.list == day; // 요일 맞는 item
+          for (let time of each.time) {
+            let matchedRow = items.value.filter(x => {
+              return x.time == time; // 시간대 맞는 item
             });
-            for (let i of matchedItem) {
-              i.title = each.title;
-              i.desc = each.desc;
+            for (let day of each.week) {
+              let matchedItem = matchedRow.filter(x => {
+                return x.list == day; // 요일 맞는 item
+              });
+              for (let i of matchedItem) {
+                i.title = each.title;
+                i.desc = each.desc;
+              }
             }
           }
         }
       }
-    });
+    );
+
+    // let taskList = store.state.Task.taskList;
+    // watch(taskList, (newVal, oldVal) => {
+    //   for (let each of newVal) {
+
+    //     for (let time of each.time) {
+    //       let matchedRow = items.value.filter(x => {
+    //         return x.time == time; // 시간대 맞는 item
+    //       });
+    //       for (let day of each.week) {
+    //         let matchedItem = matchedRow.filter(x => {
+    //           return x.list == day; // 요일 맞는 item
+    //         });
+    //         for (let i of matchedItem) {
+    //           i.title = each.title;
+    //           i.desc = each.desc;
+    //         }
+    //       }
+    //     }
+    //   }
+    // });
 
     const timeList = () => {
       return time;
     };
 
-    const getList = day => {
+    const itemList = day => {
       let list = items.value.filter(item => item.list == day);
       list.sort(function(a, b) {
         return a.order - b.order;
@@ -176,7 +201,7 @@ export default defineComponent({
         { idx: 6, nm: "Sat" },
         { idx: 7, nm: "Sun" }
       ],
-      getList,
+      itemList,
       timeList,
       startDrag,
       onDrop,
@@ -184,7 +209,7 @@ export default defineComponent({
       time
     };
   }
-});
+};
 </script>
 <style scoped lang="scss">
 @import "src/styles/quasar.scss";

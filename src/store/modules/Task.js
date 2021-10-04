@@ -7,7 +7,6 @@ export const Task = {
   }),
   mutations: {
     SET_TASK_LIST(state, payload) {
-      console.log('task', payload, payload[0].time[0]);
       state.taskList = payload;
     }
   },
@@ -20,11 +19,23 @@ export const Task = {
     setTask({ commit, dispatch }, params) {
       return new Promise(async (resolve, reject) => {
         try {
-          console.log("오긴 왔어?", params)
-          const rs = axios.post('/api/task/setTask', params)
-          console.log('setTask', rs);
+          const rs = await axios.post('/api/task/setTask', params);
+          resolve(rs)
         } catch (err) {
           console.error(err);
+          reject(err);
+        }
+      })
+    },
+    getTaskList({ commit, dispatch }, param) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const rs = await axios.post('/api/task/getTaskList', param)
+          commit('SET_TASK_LIST', rs.data.msg);
+          resolve(rs);
+        } catch (err) {
+          console.error(err);
+          reject(err);
         }
       })
     }
