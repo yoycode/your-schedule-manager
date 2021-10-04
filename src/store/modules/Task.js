@@ -38,6 +38,18 @@ export const Task = {
           reject(err);
         }
       })
+    },
+    deleteTask({ commit, dispatch }, param) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          console.log("id", param)
+          const rs = await axios.post('/api/task/deleteTask', param);
+          resolve(rs);
+        } catch (err) {
+          console.error(err);
+          reject(err);
+        }
+      })
     }
   }
 }

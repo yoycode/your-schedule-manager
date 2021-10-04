@@ -101,7 +101,6 @@ export default {
       () => store.state.Task.taskList,
       function() {
         let newVal = store.state.Task.taskList;
-        console.log("watch");
         for (let each of newVal) {
           // 이렇게 하면 그 위에 덮어씌워짐
           // let each = taskList[taskList.length - 1]; // 이렇게 하면 자리가 바뀌고
@@ -123,27 +122,6 @@ export default {
         }
       }
     );
-
-    // let taskList = store.state.Task.taskList;
-    // watch(taskList, (newVal, oldVal) => {
-    //   for (let each of newVal) {
-
-    //     for (let time of each.time) {
-    //       let matchedRow = items.value.filter(x => {
-    //         return x.time == time; // 시간대 맞는 item
-    //       });
-    //       for (let day of each.week) {
-    //         let matchedItem = matchedRow.filter(x => {
-    //           return x.list == day; // 요일 맞는 item
-    //         });
-    //         for (let i of matchedItem) {
-    //           i.title = each.title;
-    //           i.desc = each.desc;
-    //         }
-    //       }
-    //     }
-    //   }
-    // });
 
     const timeList = () => {
       return time;

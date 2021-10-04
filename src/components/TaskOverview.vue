@@ -11,9 +11,20 @@
       :label="listData[index].title"
       draggable="true"
       @dragstart="startDrag($event, item)"
+      removable
+      @remove="deleteItem(item)"
       outline
       square
     >
+      <q-tooltip>
+        {{item.title}}
+        <br />
+        {{item.desc}}
+        <br />
+        {{item.week}}
+        <br />
+        {{item.time}}
+      </q-tooltip>
       <!-- {{ item}} -->
       <!-- 수정용 -->
       <!-- <schedule-card
@@ -39,16 +50,22 @@ export default {
     scheduleCard
   },
   setup(props) {
-    console.log("props", props.taskList);
+    const store = useStore();
+
     const startDrag = (event, item) => {
       event.dataTransfer.setData("itemTitle", item.title);
       event.dataTransfer.setData("itemDesc", item.desc);
+    };
+
+    const deleteItem = item => {
+      store.dispatch("Task/deleteTask", { id: item._id });
     };
 
     return {
       dialog: ref(false),
       filter: ref(""),
       startDrag,
+      deleteItem,
       listData: computed(() => {
         return props.taskList;
       })
