@@ -30,6 +30,7 @@ app.post('/getTaskList', (req, res) => {
 })
 
 app.post('/deleteTask', async (req, res) => {
+  let rs = {}
   await Task.deleteOne({ _id: new ObjectID(req.body.id) })
     .then(data => {
       return res.status(200).json({
@@ -40,6 +41,7 @@ app.post('/deleteTask', async (req, res) => {
     .catch(err => {
       return res.json({ success: false, err });
     })
+  // return res({ rs : result })
 })
 
 module.exports = app;
