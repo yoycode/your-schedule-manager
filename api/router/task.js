@@ -29,6 +29,11 @@ app.post('/getTaskList', (req, res) => {
   })
 })
 
+app.post('/applyTask', (req, res) => {
+  console.log("applyTask", req.body);
+  // 해당 item 찾아가서 apply 변경해주기 
+})
+
 app.post('/deleteTask', async (req, res) => {
   let rs = {}
   await Task.deleteOne({ _id: new ObjectID(req.body.id) })

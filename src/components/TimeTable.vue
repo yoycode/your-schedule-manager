@@ -98,6 +98,8 @@ export default {
     );
 
     watch(
+      // 여기서 for문 이렇게 돌지말고 appliedTask watch 걸어서
+      // 거기에 있는 week이랑 time 바꿔주기
       () => store.state.Task.taskList,
       function() {
         let newVal = store.state.Task.taskList;

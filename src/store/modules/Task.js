@@ -4,15 +4,22 @@ export const Task = {
   namespaced: true,
   state: () => ({
     taskList: [],
+    appliedTask: [],
   }),
   mutations: {
     SET_TASK_LIST(state, payload) {
       state.taskList = payload;
+    },
+    SET_APPLIED_TASK(state, payload) {
+      state.appliedTask = payload;
     }
   },
   getters: {
     GET_TASK_LIST(state) {
       return state.taskList;
+    },
+    GET_APPLIED_TASK(state) {
+      return state.appliedTask;
     }
   },
   actions: {
@@ -21,6 +28,18 @@ export const Task = {
         try {
           const rs = await axios.post('/api/task/setTask', params);
           resolve(rs)
+        } catch (err) {
+          console.error(err);
+          reject(err);
+        }
+      })
+    },
+    applyTask({ commit, dispatch }, param) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          console.log("apply task param", param);
+          const rs = await axios.post('/api/task/applyTask', param);
+          resolve(rs);
         } catch (err) {
           console.error(err);
           reject(err);
