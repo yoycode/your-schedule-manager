@@ -31,6 +31,15 @@ export const Login = {
           console.error(err)
         }
       })
+    },
+    login({ commit, dispatch }, param) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const rs = axios.post('/api/user/login', param)
+        } catch (err) {
+          console.error(err);
+        }
+      })
     }
 
   }

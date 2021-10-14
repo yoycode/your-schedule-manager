@@ -24,7 +24,7 @@ export default {
     const store = useStore();
     store
       .dispatch("Task/getTaskList", "hi")
-      .then(result => console.log("성공", result))
+      .then(result => {})
       .catch(error => console.error("실패", error));
 
     return {

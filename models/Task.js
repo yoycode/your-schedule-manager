@@ -20,6 +20,10 @@ const taskSchema = mongoose.Schema({
   },
   time: {
     type: Array,
+  },
+  applied: {
+    type: Boolean,
+    default: false,
   }
 }, { collection: 'task' })
 

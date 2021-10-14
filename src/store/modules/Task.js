@@ -37,8 +37,12 @@ export const Task = {
     applyTask({ commit, dispatch }, param) {
       return new Promise(async (resolve, reject) => {
         try {
-          console.log("apply task param", param);
+          // console.log("apply task param", param);
           const rs = await axios.post('/api/task/applyTask', param);
+          // console.log(rs);
+          if (param.applied) {
+            commit('SET_APPLIED_TASK', param)
+          }
           resolve(rs);
         } catch (err) {
           console.error(err);
@@ -61,7 +65,6 @@ export const Task = {
     deleteTask({ commit, dispatch }, param) {
       return new Promise(async (resolve, reject) => {
         try {
-          console.log("id", param)
           const rs = await axios.post('/api/task/deleteTask', param);
           resolve(rs);
         } catch (err) {

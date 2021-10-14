@@ -12,15 +12,15 @@ export const TimeTable = {
 
   mutations: {
     SET_SCHEDULE(state, payload) {
-      console.log('schedule', payload);
+      // console.log('schedule', payload);
       state.timeSet = payload;
     },
     SET_TIME_OPTION(state, payload) {
-      console.log('time', payload)
+      // console.log('time', payload)
       state.option_time = payload;
     },
     SET_SLOT_LIST(state, payload) {
-      console.log('slot', payload);
+      // console.log('slot', payload);
       state.slotList = payload;
     }
   },

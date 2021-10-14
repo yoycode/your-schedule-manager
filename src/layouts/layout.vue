@@ -21,7 +21,7 @@
       <q-scroll-area class="fit">
         <q-list padding>
           <!-- <router-link to="/about">About</router-link> -->
-          <q-item clickable v-ripple to="/">
+          <q-item clickable v-ripple to="/home">
             <q-item-section avatar>
               <q-icon name="inbox" />
             </q-item-section>

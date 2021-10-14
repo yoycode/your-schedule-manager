@@ -29,9 +29,18 @@ app.post('/getTaskList', (req, res) => {
   })
 })
 
-app.post('/applyTask', (req, res) => {
-  console.log("applyTask", req.body);
-  // 해당 item 찾아가서 apply 변경해주기 
+app.post('/applyTask', async (req, res) => {
+  // 해당 item 찾아가서 apply 변경해주기  
+  await Task.update({ _id: req.body._id }, { applied: req.body.applied })
+    .then(data => {
+      return res.status(200).json({
+        success: true,
+        msg: data
+      })
+    })
+    .catch(err => {
+      return res.json({ success: false, err })
+    })
 })
 
 app.post('/deleteTask', async (req, res) => {

@@ -100,28 +100,59 @@ export default {
     watch(
       // 여기서 for문 이렇게 돌지말고 appliedTask watch 걸어서
       // 거기에 있는 week이랑 time 바꿔주기
-      () => store.state.Task.taskList,
+      () => store.state.Task.appliedTask,
       function() {
-        let newVal = store.state.Task.taskList;
-        for (let each of newVal) {
-          // 이렇게 하면 그 위에 덮어씌워짐
-          // let each = taskList[taskList.length - 1]; // 이렇게 하면 자리가 바뀌고
+        let newVal = store.state.Task.appliedTask;
+        // let matchedItem = [];
+        // for (let each of items.value) {
+        //   if (each.list === newVal.week) {
+        //     for (let time of newVal.time) {
+        //       if (each.time === time) {
+        //         machedItem.push(each);
+        //       }
+        //     }
+        //   }
+        // }
 
-          for (let time of each.time) {
-            let matchedRow = items.value.filter(x => {
-              return x.time == time; // 시간대 맞는 item
+        // for (let i of matchedItem) {
+        //   i.title = newVal.title;
+        //   i.desc = newVal.desc;
+        // }
+
+        for (let time of newVal.time) {
+          let matchedRow = items.value.filter(x => {
+            return x.time === time;
+          });
+          for (let day of newVal.week) {
+            let matchedItem = matchedRow.filter(x => {
+              return x.list === day;
             });
-            for (let day of each.week) {
-              let matchedItem = matchedRow.filter(x => {
-                return x.list == day; // 요일 맞는 item
-              });
-              for (let i of matchedItem) {
-                i.title = each.title;
-                i.desc = each.desc;
-              }
+            for (let i of matchedItem) {
+              i.title = newVal.title;
+              i.desc = newVal.desc;
             }
           }
         }
+
+        // for (let each of newVal) {
+        //   // 이렇게 하면 그 위에 덮어씌워짐
+        //   // let each = taskList[taskList.length - 1]; // 이렇게 하면 자리가 바뀌고
+
+        //   for (let time of each.time) {
+        //     let matchedRow = items.value.filter(x => {
+        //       return x.time == time; // 시간대 맞는 item
+        //     });
+        //     for (let day of each.week) {
+        //       let matchedItem = matchedRow.filter(x => {
+        //         return x.list == day; // 요일 맞는 item
+        //       });
+        //       for (let i of matchedItem) {
+        //         i.title = each.title;
+        //         i.desc = each.desc;
+        //       }
+        //     }
+        //   }
+        // }
       }
     );
 

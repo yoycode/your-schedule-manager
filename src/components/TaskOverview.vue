@@ -5,6 +5,7 @@
     </q-dialog>
   </div>-->
   <div class="row justify-start">
+    <!-- {{listData}} -->
     <!-- <q-chip
       v-model:selected="desert.Icecream"
       color="primary"
@@ -12,18 +13,24 @@
       icon="cake"
     >Ice cream</q-chip>-->
     <q-chip
-      v-for="(item, index) in listData"
+      v-for="(item) in listData"
       :key="item.title"
       draggable="true"
       @dragstart="startDrag($event, item)"
       removable
       @remove="deleteItem(item)"
       square
-      class="pl-0"
     >
-      <q-icon name="today" color="grey" style="font-size: 22px;" @click="setInTimeTable(item)" />
-      <!-- <q-avatar icon="event" color="deep-orange" text-color="white" @click="setInTimeTable(item)" /> -->
-      {{listData[index].title}}
+      <q-checkbox
+        size="xs"
+        v-model="item.applied"
+        :color="isApplied(item)"
+        @click="applyTask(item)"
+        :label="item.title"
+      />
+      <!-- <q-icon name="today" :color="isApplied(item)" style="font-size: 22px;" /> -->
+      <!-- <q-avatar icon="event" color="deep-orange" text-color="white" @click="applyTask(item)" /> -->
+      <!-- {{listData[index].title}} -->
       <q-tooltip>
         {{item.title}}
         <br />
@@ -60,14 +67,20 @@ export default {
   setup(props) {
     const store = useStore();
 
-    const setInTimeTable = item => {
-      console.log(item);
-      console.log(item.week);
-      console.log(item.time);
-      store
+    const isApplied = item => {
+      if (item.applied) return "deep-orange";
+      else return "black";
+    };
+
+    const applyTask = async item => {
+      // if (item.applied) {
+      await store
         .dispatch("Task/applyTask", item)
-        .then(result => console.log("성공", result))
-        .catch(error => console.log("실패", error));
+        .then(result => {
+          // console.log("성공", result);
+        })
+        .catch(error => console.error("실패", error));
+      // }
       // add task하면 store에 list를 저장하고
       // schedule엔 뿌려주지말기
       // 그리고 여기 메소드 탈때만 store에 다른 appliedList 만들어서
@@ -92,7 +105,8 @@ export default {
     return {
       dialog: ref(false),
       filter: ref(""),
-      setInTimeTable,
+      applyTask,
+      isApplied,
       startDrag,
       deleteItem,
       listData: computed(() => {
