@@ -36,7 +36,14 @@ export const TimeTable = {
     }
   },
   actions: {
-    setSchedule() {
+    setTime({ dispatch, commit }, param) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          commit('SET_SCHEDULE', param)
+        } catch (err) {
+          console.error(err)
+        }
+      })
 
     }
   }

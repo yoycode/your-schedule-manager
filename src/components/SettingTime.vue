@@ -1,6 +1,8 @@
 <template>
   <div class="setting row justify-between">
-    <div>
+    <div class="row">
+      <q-input v-model="name" label="name" standout="bg-deep-orange text-white" />
+      <q-input v-model="pw" label="pw" standout="bg-deep-orange text-white" />
       <q-btn icon="access_time" color="deep-orange" outline align="around" class="q-mr-sm">
         Start {{ timeFrom }}
         <q-popup-proxy @before-show="updateProxy" transition-show="scale" transition-hide="scale">
@@ -46,6 +48,9 @@ export default {
   setup() {
     const store = useStore();
 
+    let name = ref("");
+    let pw = ref("");
+
     let timeFrom = ref("18:00");
     let timeTo = ref("24:00");
     let proxyTimeFrom = ref("00:00");
@@ -78,16 +83,29 @@ export default {
       } else {
         alert("times are wrong");
       }
-      const params = {
+      // store.commit("TimeTable/SET_SCHEDULE", param);
+      const userInfo = {
+        name: name.value,
+        password: pw.value
+      };
+      store.dispatch("Login/login", userInfo).catch(err => {
+        console.error(err);
+      });
+
+      const param = {
         timeFrom: timeFrom.value,
         timeTo: timeTo.value,
         slotCnt: slotCnt
       };
-      store.commit("TimeTable/SET_SCHEDULE", params);
+      store.dispatch("TimeTable/setTime", param);
+      store.dispatch("Task/getTaskList", { name: name.value });
     };
 
     return {
       // time,
+      name,
+      pw,
+
       proxyTimeFrom,
       proxyTimeTo,
       timeFrom,

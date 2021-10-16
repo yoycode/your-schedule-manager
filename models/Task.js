@@ -8,22 +8,25 @@ const taskSchema = mongoose.Schema({
     type: String,
     maxlength: 50,
   },
-  title: {
-    type: String,
-    maxlength: 50,
-  },
-  desc: {
-    type: String,
-  },
-  week: {
+  taskInfo: {
     type: Array,
-  },
-  time: {
-    type: Array,
-  },
-  applied: {
-    type: Boolean,
-    default: false,
+    title: {
+      type: String,
+      maxlength: 50,
+    },
+    desc: {
+      type: String,
+    },
+    week: {
+      type: Array,
+    },
+    time: {
+      type: Array,
+    },
+    applied: {
+      type: Boolean,
+      // default: false,
+    }
   }
 }, { collection: 'task' })
 

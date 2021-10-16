@@ -3,7 +3,8 @@
     <q-btn label="ADD TASK" @click="dialog = true" />
     <q-dialog v-model="dialog">
       <q-card style="width:420px">
-        <q-card-section>
+        <q-card-section class="row">
+          <q-checkbox v-model="isApplied" color="deep-orange" />
           <div class="text-h6">Daily Routine</div>
         </q-card-section>
 
@@ -92,6 +93,7 @@ export default {
   setup() {
     const store = useStore();
     let dialog = ref(false);
+    let isApplied = ref(false);
     let title = ref("");
     let desc = ref("");
     let week_type = ref(0);
@@ -131,24 +133,33 @@ export default {
       week.value = arr;
     });
 
-    const saveTask = () => {
+    const saveTask = async () => {
       // let arr = store.getters["Task/GET_TASK_LIST"];
       let arr = [];
-      let task = {
-        title: title.value,
-        desc: desc.value,
-        week: week.value,
-        time: time.value
+      const name = store.getters["Login/GET_NAME"];
+      let param = {
+        name: name,
+        taskInfo: {
+          applied: isApplied.value,
+          title: title.value,
+          desc: desc.value,
+          week: week.value,
+          time: time.value
+        }
       };
-      arr.push(task);
+      // arr.push(task);
       // store.commit("Task/SET_TASK_LIST", arr);
-      store
-        .dispatch("Task/setTask", arr)
+      await store
+        .dispatch("Task/setTask", param)
         .then(result => {
           console.log("성공", result);
-          store.dispatch("Task/getTaskList", "hi2");
         })
         .catch(error => console.error("실패", error));
+
+      await store.dispatch("Task/getTaskList", {
+        name: name
+      });
+      // isApplied.value = false;
       title.value = "";
       desc.value = "";
       week_type.value = 0;
@@ -158,6 +169,7 @@ export default {
     };
     return {
       dialog,
+      isApplied,
       title,
       desc,
       week_type,

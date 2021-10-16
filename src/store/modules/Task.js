@@ -23,10 +23,10 @@ export const Task = {
     }
   },
   actions: {
-    setTask({ commit, dispatch }, params) {
+    setTask({ commit, dispatch }, param) {
       return new Promise(async (resolve, reject) => {
         try {
-          const rs = await axios.post('/api/task/setTask', params);
+          const rs = await axios.post('/api/task/setTask', param);
           resolve(rs)
         } catch (err) {
           console.error(err);
@@ -37,10 +37,8 @@ export const Task = {
     applyTask({ commit, dispatch }, param) {
       return new Promise(async (resolve, reject) => {
         try {
-          // console.log("apply task param", param);
           const rs = await axios.post('/api/task/applyTask', param);
-          // console.log(rs);
-          if (param.applied) {
+          if (param.taskInfo.applied) {
             commit('SET_APPLIED_TASK', param)
           }
           resolve(rs);
@@ -54,7 +52,7 @@ export const Task = {
       return new Promise(async (resolve, reject) => {
         try {
           const rs = await axios.post('/api/task/getTaskList', param)
-          commit('SET_TASK_LIST', rs.data.msg);
+          commit('SET_TASK_LIST', rs.data.msg[0].taskInfo);
           resolve(rs);
         } catch (err) {
           console.error(err);

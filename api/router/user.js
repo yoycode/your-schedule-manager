@@ -3,10 +3,9 @@ const app = express();
 
 const { auth } = require("../../middleware/auth");
 const { User } = require("../../models/User");
-
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
 app.post("/", (req, res) => {
-  console.log(req);
-  console.table(req.body);
   res.send("Hello World!yoy2");
 });
 
@@ -20,33 +19,29 @@ app.post("/register", (req, res) => {
   //     id:"hello",
   //     password:"123"
   // }
-  console.log(req.body);
   const user = new User(req.body); // 인스턴스 생성 (모든정보들을 user에 넣어줌)
-
 
   //mongoDB method .save()
   user.save((err, userInfo) => {
     if (err) return res.json({ success: false, err });
     return res.status(200).json({
       success: true,
-      msg: "hi"
+      msg: userInfo
     });
   });
 });
-app.post("/user/getList", (req, res) => {
+app.post("/getList", (req, res) => {
   // console.dir(User.find().where('name').equals('jiyeon1234'));
-  console.log('------');
-
   User.find((err, userList) => {
-    console.log(userList);
+    // console.log(userList);
   })
 })
 
 // 로그인을 위한 라우트
-app.post("/api/user/login", (req, res) => {
+app.post("/login", (req, res) => {
   // 로그인 라우트에서 해야할일
   // 1. 요청된 이메일을 데이터베이스에 있는지 찾음 (모델을 가져온 후 찾으려면 mongoDB method .fondOne())
-  User.findOne({ email: req.body.email }, (err, user) => {
+  User.findOne({ name: req.body.name }, (err, user) => {
     if (!user) {
       return res.json({
         loginSuccess: false,
@@ -71,6 +66,8 @@ app.post("/api/user/login", (req, res) => {
           .status(200)
           .json({ loginSuccess: true, userId: user._id });
       });
+
+
     });
   });
 });
@@ -93,7 +90,7 @@ app.get("/api/users/auth", auth, (req, res) => {
 });
 
 //req, res 순서 바뀌면 안됨
-app.get("/api/users/logout", auth, (req, res) => {
+app.get("/logout", auth, (req, res) => {
   User.findOneAndUpdate({ _id: req.user._id }, { token: "" }, (err, user) => {
     if (err) return res.json({ success: false, err });
     return res.status(200).send({

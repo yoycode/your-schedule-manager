@@ -3,21 +3,23 @@ const axios = require('axios');
 export const Login = {
   namespaced: true,
   state: () => ({
-
+    name: '',
   }),
   mutations: {
-
+    SET_NAME(state, payload) {
+      state.name = payload
+    }
   },
   getters: {
-
+    GET_NAME(state) {
+      return state.name;
+    }
   },
   actions: {
-    test({ commit, dispatch }, params) {
+    test({ commit, dispatch }, param) {
       return new Promise(async (resolve, reject) => {
         try {
-          const rs = axios.post('/api/user/register', params)
-          console.log(rs);
-          // await this.$axios.post
+          const rs = await axios.post('/api/user/register', param)
         } catch (err) {
           console.error(err);
         }
@@ -26,7 +28,7 @@ export const Login = {
     getList({ commit, dispatch }) {
       return new Promise(async (resolve, reject) => {
         try {
-          const rs = axios.post('/api/user/getList');
+          const rs = await axios.post('/api/user/getList');
         } catch (err) {
           console.error(err)
         }
@@ -35,7 +37,17 @@ export const Login = {
     login({ commit, dispatch }, param) {
       return new Promise(async (resolve, reject) => {
         try {
-          const rs = axios.post('/api/user/login', param)
+          const rs = await axios.post('/api/user/login', param)
+          commit('SET_NAME', param.name)
+        } catch (err) {
+          console.error(err);
+        }
+      })
+    },
+    logout({ commit, dispatch }, param) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const rs = await axios.post('/api/user/logout', param)
         } catch (err) {
           console.error(err);
         }

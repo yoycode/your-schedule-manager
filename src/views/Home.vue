@@ -1,8 +1,10 @@
 <template>
   <div>
     <setting-time class="layout" />
-    <task-overview class="layout" :taskList="taskList" />
-    <time-table class="layout" :testList="taskList" />
+    <!-- <task-overview class="layout" :taskList="taskList" />
+    <time-table class="layout" :testList="taskList" />-->
+    <task-overview class="layout" />
+    <time-table class="layout" />
   </div>
 </template>
 
@@ -21,15 +23,14 @@ export default {
     timeTable
   },
   setup() {
-    const store = useStore();
-    store
-      .dispatch("Task/getTaskList", "hi")
-      .then(result => {})
-      .catch(error => console.error("실패", error));
-
-    return {
-      taskList: computed(() => store.state.Task.taskList)
-    };
+    // const store = useStore();
+    // store
+    //   .dispatch("Task/getTaskList", store.getters["Login/GET_NAME"])
+    //   .then(result => {})
+    //   .catch(error => console.error("실패", error));
+    // return {
+    //   taskList: computed(() => store.state.Task.taskList)
+    // };
   }
 };
 </script>

@@ -117,7 +117,6 @@ export default {
   },
   computed: {
     listToDay() {
-      console.log(this.item.list, typeof this.item.list);
       switch (this.item.list) {
         case 1:
           return "Monday";
@@ -137,9 +136,7 @@ export default {
     }
   },
   watch: {
-    title() {
-      console.log(title.value);
-    }
+    title() {}
   }
 };
 </script>

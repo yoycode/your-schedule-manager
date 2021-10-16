@@ -3,24 +3,55 @@ const app = express();
 const ObjectID = require('mongodb').ObjectId;
 const { Task } = require('../../models/Task');
 
-app.post('/setTask', (req, res) => {
-  console.log("setTask: ", req.body);
-  const task = new Task(req.body[0]);
+app.post('/setTask', async (req, res) => {
+  const param = req.body;
+  // 여기 쿼리 처음부터 다시 짜야됨
+  // name 있으면 그냥 save, 하고 
+  Task.findOne({ name: param.name }, (err, result) => {
+    if (!result) {
+      const task = new Task(param);
+      // console.log('result length', result.length)
+      task.save((err, taskInfo) => {
+        if (err) return res.json({ success: false, err });
+        return res.status(200).json({
+          success: true,
+          msg: taskInfo
+        })
+      })
+    } else {
+      Task.updateOne(
+        { name: param.name },
+        {
+          $push: {
+            taskInfo:
+            {
+              applied: param.taskInfo.applied,
+              title: param.taskInfo.title,
+              desc: param.taskInfo.desc,
+              week: param.taskInfo.week,
+              time: param.taskInfo.time
+            }
+          }
+        }
+      ).then(data => {
+        return res.status(200).json({
+          success: true,
+          msg: data
+        })
+      }).catch(err => {
+        console.error(err);
+        return res.json({ success: false, err })
+      })
 
-  task.save((err, taskInfo) => {
-    if (err) return res.json({ success: false, err });
-    return res.status(200).json({
-      success: true,
-      msg: taskInfo
-    })
+    }
   })
+
+
 })
 
 app.post('/getTaskList', (req, res) => {
-  console.log("getTaskList param:", req.body);
   // const task = new Task;
-
-  Task.find((err, taskList) => {
+  Task.find({ name: req.body.name }, (err, taskList) => {
     if (err) return res.json({ success: false, err });
     return res.status(200).json({
       success: true,
@@ -30,31 +61,95 @@ app.post('/getTaskList', (req, res) => {
 })
 
 app.post('/applyTask', async (req, res) => {
-  // 해당 item 찾아가서 apply 변경해주기  
-  await Task.update({ _id: req.body._id }, { applied: req.body.applied })
-    .then(data => {
-      return res.status(200).json({
+  const param = req.body;
+  // console.log("param", param);
+
+  Task.findOneAndUpdate(
+    { name: param.name },
+    { taskInfo: { applied: param.taskInfo.applied } },
+    (err, result) => {
+      if (err) return res.json({ success: false, err });
+      return res.status(200).send({
         success: true,
-        msg: data
+        msg: result
       })
     })
-    .catch(err => {
-      return res.json({ success: false, err })
-    })
+  // Task.findOne({ name: param.name }, (err, result) => {
+  //   console.log("result", result);
+  //   Task.updateOne(
+  //     { name: param.name },
+  //     {
+  //       $pull: {
+  //         taskInfo: {
+  //           applied: param.taskInfo.applied
+  //         }
+  //       }
+  //     }
+  //   ).then(data => {
+  //     console.log("성공!")
+  //     // console.log(data);
+  //     Task.findOne({ name: param.name }, (err, result) => {
+  //       console.log('찾아보자', result);
+  //     })
+  //     return res.status(200).json({
+  //       success: true,
+  //       msg: data
+  //     })
+  //   }).catch(err => {
+  //     console.error(err);
+  //     return res.json({ success: false, err })
+  //   })
+  // })
+
+
+
+  // 해당 item 찾아가서 apply 변경해주기  
+  // await Task.update({ _id: body._id }, { applied: body.applied })
+  //   .then(data => {
+  //     return res.status(200).json({
+  //       success: true,
+  //       msg: data
+  //     })
+  //   })
+  //   .catch(err => {
+  //     return res.json({ success: false, err })
+  //   })
 })
 
 app.post('/deleteTask', async (req, res) => {
+  const param = req.body;
   let rs = {}
-  await Task.deleteOne({ _id: new ObjectID(req.body.id) })
-    .then(data => {
+  Task.findOne({ _id: param.id }, (err, result) => {
+    // console.log("result", result);
+    Task.updateOne(
+      { name: param.name },
+      {
+        $pull: {
+          taskInfo: {
+            title: param.title
+          }
+        }
+      }
+    ).then(data => {
       return res.status(200).json({
         success: true,
         msg: data
       })
+    }).catch(err => {
+      console.error(err);
+      return res.json({ success: false, err })
     })
-    .catch(err => {
-      return res.json({ success: false, err });
-    })
+  })
+  // await Task.deleteOne({ _id: new ObjectID(param.id) })
+  //   .then(data => {
+  //     return res.status(200).json({
+  //       success: true,
+  //       msg: data
+  //     })
+  //   })
+  //   .catch(err => {
+  //     return res.json({ success: false, err });
+  //   })
   // return res({ rs : result })
 })
 

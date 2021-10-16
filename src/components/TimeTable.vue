@@ -37,7 +37,7 @@ import { useStore } from "vuex";
 import scheduleCard from "@/components/ScheduleCard.vue"; // @ is an alias to /src
 
 export default {
-  props: ["testList"],
+  // props: ["testList"],
   components: {
     scheduleCard
   },
@@ -102,7 +102,7 @@ export default {
       // 거기에 있는 week이랑 time 바꿔주기
       () => store.state.Task.appliedTask,
       function() {
-        let newVal = store.state.Task.appliedTask;
+        let newVal = store.state.Task.appliedTask.taskInfo;
         // let matchedItem = [];
         // for (let each of items.value) {
         //   if (each.list === newVal.week) {
@@ -118,7 +118,6 @@ export default {
         //   i.title = newVal.title;
         //   i.desc = newVal.desc;
         // }
-
         for (let time of newVal.time) {
           let matchedRow = items.value.filter(x => {
             return x.time === time;

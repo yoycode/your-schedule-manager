@@ -5,13 +5,13 @@
     </q-dialog>
   </div>-->
   <div class="row justify-start">
-    <!-- {{listData}} -->
     <!-- <q-chip
       v-model:selected="desert.Icecream"
       color="primary"
       text-color="white"
       icon="cake"
     >Ice cream</q-chip>-->
+    <!-- {{cookie}} -->
     <q-chip
       v-for="(item) in listData"
       :key="item.title"
@@ -28,6 +28,7 @@
         @click="applyTask(item)"
         :label="item.title"
       />
+      {{item.applied}}
       <!-- <q-icon name="today" :color="isApplied(item)" style="font-size: 22px;" /> -->
       <!-- <q-avatar icon="event" color="deep-orange" text-color="white" @click="applyTask(item)" /> -->
       <!-- {{listData[index].title}} -->
@@ -39,6 +40,10 @@
         {{item.week}}
         <br />
         {{item.time}}
+        <br />
+        {{item.name}}
+        <br />
+        {{item.applied}}
       </q-tooltip>
       <!-- {{ item}} -->
       <!-- 수정용 -->
@@ -65,6 +70,8 @@ export default {
     scheduleCard
   },
   setup(props) {
+    // const cookies = Object.fromEntries()
+    const cookie = document.cookie;
     const store = useStore();
 
     const isApplied = item => {
@@ -74,8 +81,12 @@ export default {
 
     const applyTask = async item => {
       // if (item.applied) {
+      const param = {
+        name: store.getters["Login/GET_NAME"],
+        taskInfo: item
+      };
       await store
-        .dispatch("Task/applyTask", item)
+        .dispatch("Task/applyTask", param)
         .then(result => {
           // console.log("성공", result);
         })
@@ -94,9 +105,17 @@ export default {
     };
     const deleteItem = async item => {
       if (confirm(`Do you really want to delete [${item.title}]?`)) {
-        await store.dispatch("Task/deleteTask", { id: item._id });
         await store
-          .dispatch("Task/getTaskList")
+          .dispatch("Task/deleteTask", {
+            name: store.getters["Login/GET_NAME"],
+            title: item.title
+          })
+          .then(result => console.log("성공", result))
+          .catch(error => console.error("실패", error));
+        await store
+          .dispatch("Task/getTaskList", {
+            name: store.getters["Login/GET_NAME"]
+          })
           .then(result => console.log("성공", result))
           .catch(error => console.error("실패", error));
       }
@@ -109,8 +128,9 @@ export default {
       isApplied,
       startDrag,
       deleteItem,
+      cookie,
       listData: computed(() => {
-        return props.taskList;
+        return store.getters["Task/GET_TASK_LIST"];
       })
     };
   }
